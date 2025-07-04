@@ -385,7 +385,7 @@ libraries = {
 }
 
 [node name="Player" parent="." instance=ExtResource("3_w8frs")]
-position = Vector2(-828, 529)
+position = Vector2(-883, 529)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2.625, 2.625)
@@ -418,4 +418,4 @@ cubic_interp = false
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Enemy" parent="Enemies" instance=ExtResource("5_ppgk2")]
-position = Vector2(-697, 543)
+position = Vector2(-793, 543)

@@ -1,52 +1,11 @@
-[gd_scene load_steps=48 format=3 uid="uid://cttwjpcjt0y0j"]
+[gd_scene load_steps=37 format=3 uid="uid://cttwjpcjt0y0j"]
 
 [ext_resource type="Script" uid="uid://duuw2hoby4pe7" path="res://scripts/enemy.gd" id="1_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://iqp71v8m11i" path="res://assets/Colour1/Outline/120x80_PNGSheets/_Run.png" id="1_7p1mj"]
 [ext_resource type="Texture2D" uid="uid://camtwe4uj1bc2" path="res://assets/Colour1/Outline/120x80_PNGSheets/_Attack.png" id="1_md0e3"]
-[ext_resource type="Texture2D" uid="uid://rklhniw6xpgp" path="res://assets/Colour1/Outline/120x80_PNGSheets/_Death.png" id="2_nenq2"]
 [ext_resource type="Texture2D" uid="uid://bwqt0l7epoqgi" path="res://assets/Colour1/Outline/120x80_PNGSheets/_Idle.png" id="2_xwavj"]
 [ext_resource type="Script" uid="uid://nt8nrid22x6d" path="res://components/damage_area.gd" id="4_5uy6h"]
 [ext_resource type="Script" uid="uid://ggeyo5wfgxs3" path="res://components/health_component.gd" id="4_c4w8v"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wrm80"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(0, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6awcb"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(120, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wjec0"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(240, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i4rgx"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(360, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2mchx"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(480, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t3vcr"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(600, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qaulx"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(720, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1f82d"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(840, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lioqc"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(960, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0lg75"]
-atlas = ExtResource("2_nenq2")
-region = Rect2(1080, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_otmr2"]
 atlas = ExtResource("2_xwavj")
@@ -130,41 +89,6 @@ region = Rect2(1080, 0, 120, 80)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_otmr2"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wrm80")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6awcb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wjec0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i4rgx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2mchx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t3vcr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qaulx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1f82d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lioqc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0lg75")
-}],
-"loop": false,
-"name": &"dead",
-"speed": 12.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_otmr2")
@@ -332,13 +256,14 @@ height = 118.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
 script = ExtResource("1_4ra3w")
+patrol_speed = null
+hurt_speed = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_otmr2")
-animation = &"dead"
+animation = &"idle"
 autoplay = "idle"
-frame = 9
-frame_progress = 1.0
+frame_progress = 0.971255
 offset = Vector2(0, -40)
 
 [node name="HitSprite" type="Sprite2D" parent="."]
@@ -416,8 +341,3 @@ position = Vector2(0, -26)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_nenq2")
 debug_color = Color(0.933483, 2.30065e-05, 0.644478, 0.42)
-
-[node name="Timer" type="Timer" parent="."]
-process_callback = 0
-wait_time = 2.5
-one_shot = true
