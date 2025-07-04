@@ -24,15 +24,11 @@ var current_flip_h := false:
 		sprite.flip_h = value
 		hit_sprite.flip_h = value
 		
-		if value == true:
-			%HitCollision.position.x = -10
-		else: 
-			%HitCollision.position.x = 10
+		%HitCollision.position.x = -10 if value else 10
 
 
 func _ready() -> void:
 	%HitArea.area_entered.connect(enemy_entered_on_hit_area)
-	#health_component.zero_health.connect(death)
 	health_component.damaged.connect(damaged)
 	Global.Player = self
 	%HPBar.max_value = health_component.max_health
@@ -60,6 +56,10 @@ func _physics_process(delta: float) -> void:
 	
 	%HPBar.value = health_component.health
 	#print(direction)
+
+func discarding():
+	var discarding_tween = get_tree().create_tween()
+	discarding_tween.tween_property(self, "global_position", Vector2(global_position.x - 30, global_position.y - 20), 0.1)
 
 
 func update_animation():
@@ -91,6 +91,8 @@ func hit(area: DamageAreaComponent):
 
 
 func damaged():
+	discarding()
+	
 	var tween = get_tree().create_tween()
 	tween.tween_property($AnimatedSprite2D, 'modulate', Color.BLACK, 0.15)
 	tween.tween_property($AnimatedSprite2D, 'modulate', Color.WHITE, 0.15)

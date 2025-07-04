@@ -19,10 +19,6 @@ config/icon="res://icon.svg"
 
 Global="*res://scripts/Global.gd"
 
-[display]
-
-window/size/always_on_top=true
-
 [input]
 
 move_left={

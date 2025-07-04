@@ -1,25 +1,28 @@
 extends CharacterBody2D
 
-enum State { PATROL, ATTACK, CHASE }
+enum State { PATROL, ATTACK, CHASE, DEAD }
 
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hit_sprite: Sprite2D = %HitSprite
 @onready var timer: Timer = $Timer
+@onready var ray_cast_forward: RayCast2D = $RayCastForward
+@onready var ray_cast_down: RayCast2D = $RayCastDown
 
 @export var patrol_speed := 100.0
 @export var hurt_speed := 180.0
 
 var attack_cooldown_time := 2.0
-var current_state: State = State.PATROL:
+var current_state: State:
 	set(value):
 		current_state = value
 		if value not in [State.ATTACK]:
 			previous_state = value
 		change_state(value)
 
+var prev_dir = null
 var is_player_in_apply_area := false
-var previous_state: State = State.PATROL
+var previous_state: State
 var direction := 0
 var damage := randf_range(5, 20)
 var current_flip_h := false:
@@ -30,6 +33,7 @@ var current_flip_h := false:
 		hit_sprite.flip_h = value
 		
 		%HitCollision.position.x = -42.0 if value else 42.0
+		%ApplyHitCollision.position.x = -33.0 if value else 33.0
 
 
 func _ready() -> void:
@@ -40,33 +44,41 @@ func _ready() -> void:
 	%HitArea.area_entered.connect(on_area_entered)
 	health_component.zero_health.connect(death)
 	health_component.damaged.connect(damaged)
+	
+	current_state = State.PATROL
 
 
 func _physics_process(delta: float) -> void:
+	if ray_cast_forward.is_colliding() or not ray_cast_down.is_colliding():
+		direction = -direction
+		ray_cast_forward.target_position.x = -ray_cast_forward.target_position.x
+		
 	velocity.x = direction * patrol_speed
-	current_flip_h = velocity.x < 0.0
-	update_state(delta)
+	if velocity.x != 0.0: 
+		current_flip_h = velocity.x < 0.0
+	
 	move_and_slide()
-
-
-func update_state(delta: float):
-	match current_state:
-		State.PATROL:
-			direction = 0
-		State.ATTACK:
-			pass
 
 
 func change_state(state: State):
 	match state:
 		State.PATROL:
 			_switch_sprite("anim_sprite")
-			animated_sprite.play("idle")
+			direction = prev_dir if prev_dir else 1
+			animated_sprite.play("run")
 		State.ATTACK:
+			prev_dir = direction
+			direction = 0
 			_switch_sprite("hit_sprite")
 			if timer.is_stopped():
 				$AnimationPlayer.play("hit")
 				timer.start(attack_cooldown_time)
+		State.DEAD:
+			timer.stop()
+			_switch_sprite("anim_sprite")
+			animated_sprite.play("dead")
+			await animated_sprite.animation_finished
+			queue_free()
 
 
 func damaged():
@@ -92,10 +104,7 @@ func update_health_bar():
 
 
 func death():
-	_switch_sprite("anim_sprite")
-	animated_sprite.play("dead")
-	await animated_sprite.animation_finished
-	queue_free()
+	change_state(State.DEAD)
 
 
 func hit(area: DamageAreaComponent):
@@ -104,8 +113,11 @@ func hit(area: DamageAreaComponent):
 
 
 func _on_player_entered_apply_hit(body: CharacterBody2D):
+	if body != Global.Player:
+		return
 	is_player_in_apply_area = true
 	current_state = State.ATTACK
+	
 
 
 func _on_player_exiting_apply_hit(body: CharacterBody2D):
@@ -118,7 +130,7 @@ func _timeout():
 	elif !is_player_in_apply_area and !timer.is_stopped():
 		return
 	elif !is_player_in_apply_area and timer.is_stopped():
-		current_state = State.PATROL
+		current_state = previous_state
 
 
 func player_enetered_on_detected_area(body: CharacterBody2D):
