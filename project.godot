@@ -11,13 +11,19 @@ config_version=5
 [application]
 
 config/name="TestPlatformer"
-run/main_scene="uid://00524yq77mlc"
+run/main_scene="uid://bi0ujhccsh8n0"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Global="*res://scripts/Global.gd"
+
+[display]
+
+window/size/mode=3
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_width"
 
 [input]
 

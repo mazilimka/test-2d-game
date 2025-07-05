@@ -244,7 +244,7 @@ height = 32.871
 height = 34.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
-radius = 92.0054
+radius = 132.015
 
 [sub_resource type="Animation" id="Animation_5uy6h"]
 length = 0.001
@@ -334,7 +334,6 @@ height = 50.0
 script = ExtResource("1_4ra3w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
 sprite_frames = SubResource("SpriteFrames_otmr2")
 animation = &"run"
 autoplay = "idle"
@@ -344,6 +343,7 @@ offset = Vector2(0, -40)
 
 [node name="HitSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 texture = ExtResource("1_md0e3")
 offset = Vector2(0, -40)
 hframes = 4

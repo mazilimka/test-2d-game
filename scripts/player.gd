@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var jump_velocity = -300.0
 
 var is_die := false
-var damage := randf_range(10, 20)
+var damage := randf_range(15, 25)
 var direction: float
 var is_jumping := false
 var is_hitting := false
@@ -87,7 +87,7 @@ func update_animation():
 
 func hit(area: DamageAreaComponent):
 	area.damage(damage)
-	damage = randf_range(10, 20)
+	damage = randf_range(15, 25)
 
 
 func damaged():
@@ -103,6 +103,7 @@ func death():
 	is_die = true
 	await sprite.animation_finished
 	queue_free()
+	Global.WindowManager.death_window.open()
 
 
 func enemy_entered_on_hit_area(area: Area2D):

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://1vu2urb7wlns"]
+
+[ext_resource type="Texture2D" uid="uid://baek8knde4s4w" path="res://assets/lvif57-remove-bg-io.png" id="1_sx1j4"]
+[ext_resource type="Script" uid="uid://cjdor48120bw6" path="res://scripts/flag.gd" id="2_w3gav"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2r41h"]
+radius = 114.563
+height = 364.25
+
+[node name="Goal" type="Area2D"]
+scale = Vector2(0.340426, 0.340426)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_w3gav")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-49.9375, 0)
+shape = SubResource("CapsuleShape2D_2r41h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_sx1j4")

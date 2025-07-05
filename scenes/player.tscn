@@ -327,6 +327,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qhqgy"]
+radius = 13.0
+height = 34.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3vyb7"]
 radius = 7.0
@@ -396,6 +398,7 @@ radius = 5.0
 height = 28.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+z_index = 6
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_g2els")
@@ -421,7 +424,7 @@ collision_mask = 4
 
 [node name="HitCollision" type="CollisionShape2D" parent="HitSprite/HitArea"]
 unique_name_in_owner = true
-position = Vector2(11, 0)
+position = Vector2(14, 0)
 shape = SubResource("CapsuleShape2D_qhqgy")
 disabled = true
 
